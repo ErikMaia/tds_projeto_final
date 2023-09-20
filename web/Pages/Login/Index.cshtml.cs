@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.DTOs;
+using System.Net.Http; // Importe o namespace necessário
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using api.DTOs;
 
 namespace front.Pages.Login
 {
@@ -21,6 +20,7 @@ namespace front.Pages.Login
         public void OnGet()
         {
         }
+
         public async Task<IActionResult> OnPostAsync()
         {
             var http = new HttpClient();
@@ -30,14 +30,22 @@ namespace front.Pages.Login
                 Password = Request.Form["password"],
             };
 
-            var response = await http.PostAsJsonAsync(Api.STUDENT+"/login", student);
+            var response = await http.PostAsJsonAsync(Api.STUDENT + "/login", student);
             if (response.IsSuccessStatusCode)
             {
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddDays(1),
+                    Domain = HttpContext.Request.Host.Host,
+                    Path = "/"
+                };
+
+                Response.Cookies.Append("session-id", "12345", cookieOptions);
+
                 return RedirectToPage("/Index");
             }
-
             return Page();
-
         }
     }
 }
+
