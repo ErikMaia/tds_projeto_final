@@ -26,7 +26,6 @@ namespace front.Pages.Material
             var http = new HttpClient();
             var request = await http.GetAsync(Api.MATERIAL_URL);
             materials = await Json.SerializeAsync<List<MaterialDTO>>(request);
-            Console.WriteLine(materials.ToString());
         }
 
     }
