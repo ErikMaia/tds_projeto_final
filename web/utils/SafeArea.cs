@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.utils;
-public class SafeArea: PageModel
+public class SafeArea
 {
-    protected bool safeAreaTest()
+    public static bool safeAreaTest(string[] cookie)
     {
-        var cookie = Request.Cookies["user-id"];
-        if (cookie != null)
+        if (cookie["user-id"] != "")
         {
             return true;
         }
