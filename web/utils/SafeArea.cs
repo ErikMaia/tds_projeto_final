@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace web.utils;
-public class SafeArea
+namespace web.utils
 {
-    public static bool safeAreaTest(string[] cookie)
+    public class SafeArea
     {
-        if (cookie["user-id"] != "")
+        public static bool Test(Dictionary<string, string> cookie)
         {
-            return true;
+            if (cookie.ContainsKey("user-id") && !string.IsNullOrEmpty(cookie["user-id"]))
+            {
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 }
